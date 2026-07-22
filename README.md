@@ -48,7 +48,7 @@ pip install kaggle
 kaggle datasets download -d juhibhojani/house-price -p notebooks/data --unzip
 ```
 
-Setup
+## Setup
 1. Notebook (regenerates the model)
 The trained model file is not committed to this repo — you must regenerate it by running the notebook once:
 
@@ -61,8 +61,6 @@ pip install jupyter pandas numpy scikit-learn matplotlib seaborn joblib
 
 jupyter notebook house_price_model.ipynb
 # Run all cells (Kernel -> Restart & Run All)
-
-**This produces house_price.pkl and locations.json inside notebooks/. Copy both into place:**
 ```
 
 This produces house_price.pkl and locations.json inside notebooks/. Copy both into place:

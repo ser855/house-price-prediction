@@ -14,12 +14,7 @@ frontend/    -> React form that calls the backend and displays the result
 
 ## Architecture
 
-┌─────────────┐        POST /predict         ┌──────────────┐       predict()      ┌────────────────────┐
-│  Frontend   │  ───────────────────────────> │   Backend    │ ───────────────────> │  house_price.pkl    │
-│  (React)    │ <─────────────────────────── │  (FastAPI)   │ <─────────────────── │  (sklearn Pipeline)  │
-│ port 5173   │      { predicted_price }      │  port 8000   │      prediction       └────────────────────┘
 
-└─────────────┘                               └──────────────┘
 
 1. User submits the form on the frontend.
 2. Frontend sends a JSON request to POST /predict.
@@ -29,98 +24,71 @@ frontend/    -> React form that calls the backend and displays the result
 
 ## Tech stack
 
-Layer -->	Technology
-Modeling -->	Python, pandas, scikit-learn, Jupyter
-Backend -->	FastAPI, Pydantic, Uvicorn
-Frontend -->	React, TypeScript, Vite, React Router
-Model export -->	joblib (pickled Pipeline)
+Layer         | 	Technology
+Modeling      | 	Python, pandas, scikit-learn, Jupyter
+Backend       |     FastAPI, Pydantic, Uvicorn
+Frontend      | 	React, TypeScript, Vite, React Router
+Model export  | 	joblib (pickled Pipeline)
 
 ## Project structure
 
-house-price-project/
-├── notebooks/
-│   └── house_price_model.ipynb     # data cleaning, EDA, training, evaluation
-├── backend/
-│   ├── app/
-│   │   ├── main.py                  # FastAPI app, CORS, startup model loading
-│   │   ├── api/routes/prediction.py # GET /health, POST /predict
-│   │   ├── core/config.py           # settings from .env
-│   │   ├── schemas/prediction.py    # request/response models
-│   │   ├── services/
-│   │   │   ├── preprocessing.py     # request -> one-row DataFrame
-│   │   │   └── inference.py         # loads .pkl, runs predict()
-│   │   └── utils/logging_config.py
-│   ├── models/                      # house_price.pkl goes here (not committed)
-│   ├── tests/test_prediction.py
-│   ├── requirements.txt
-│   └── .env.example
-└── frontend/
-    ├── src/
-    │   ├── api/predictionClient.ts  # fetch wrapper
-    │   ├── components/PredictionForm.tsx
-    │   ├── pages/HomePage.tsx | ResultPage.tsx | NotFoundPage.tsx
-    │   ├── types/prediction.ts      # TS types mirroring the backend schema
-    │   └── data/locations.json      # dropdown options
-    └── .env.example
 
 ## Dataset
 
 House Price by Juhi Bhojani — https://www.kaggle.com/datasets/juhibhojani/house-price
 
 Real property listings from India (~187K rows). The raw CSV is not committed to this repo, To get it:
-
-bash
+`
 pip install kaggle
-# Get an API token: Kaggle -> Settings -> API -> "Create New Token"
-# Place kaggle.json in C:\Users\<you>\.kaggle\ (Windows) or ~/.kaggle/ (macOS/Linux)
 kaggle datasets download -d juhibhojani/house-price -p notebooks/data --unzip
+`
 
 ## Setup
 
 1. Notebook (regenerates the model)
 
-The trained model file (house_price.pkl) is not committed to this repo — You must regenerate it by running the notebook once:
+**The trained model file (house_price.pkl) is not committed to this repo — You must regenerate it by running the notebook once:**
 
-bash
+`
 cd notebooks
 python -m venv .venv
 .venv\Scripts\activate
 pip install jupyter pandas numpy scikit-learn matplotlib seaborn joblib
-
 jupyter notebook house_price_model.ipynb
-# Run all cells (Kernel -> Restart & Run All)
+`
 
-This produces house_price.pkl and locations.json inside notebooks/. Copy both into place:
+Run all cells (Kernel -> Restart & Run All)
 
-bash
+**This produces house_price.pkl and locations.json inside notebooks/. Copy both into place:**
+
+`
 copy house_price.pkl ..\backend\models\house_price.pkl
 copy locations.json ..\backend\locations.json
 copy locations.json ..\frontend\src\data\locations.json
+`
 
 2. Backend
 
-bash
+`
 cd backend
 python -m venv .venv
-.venv\Scripts\activate           # Windows
-
+.venv\Scripts\activate
 pip install -r requirements.txt
-copy .env.example .env           # Windows
-
+copy .env.example .env
 uvicorn app.main:app --reload
-
+`
 Runs at http://localhost:8000. Interactive docs at http://localhost:8000/docs.
 
-Environment variables (backend/.env):
+**Environment variables (backend/.env):**
 
-Variable	Default	Description
-MODEL_PATH	models/house_price.pkl	Path to the pickled pipeline
-CORS_ORIGINS	http://localhost:5173	Allowed frontend origin(s), comma-separated
+Variable     |	Default                 |	Description
+MODEL_PATH   |	models/house_price.pkl  |	Path to the pickled pipeline
+CORS_ORIGINS |	http://localhost:5173   |    Allowed frontend origin(s), comma-separated
 
 Run tests:
-
-bash
+`
 pytest
+`
 
 3. Frontend
 

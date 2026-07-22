@@ -1,0 +1,23 @@
+# Python / backend
+.venv/
+__pycache__/
+*.pyc
+backend/.env
+
+# Node / frontend
+node_modules/
+dist/
+frontend/.env
+
+# Data
+notebooks/data/
+*.csv
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+backend/models/house_price.pkl

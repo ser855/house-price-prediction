@@ -1,0 +1,125 @@
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --border: #2c2f3a;
+  --text-primary: #f2f2f2;
+  --text-secondary: #9a9ca8;
+  --accent: #4f8cff;
+  --accent-hover: #6ba0ff;
+  --error: #ff6b6b;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.page {
+  width: 100%;
+  max-width: 640px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.field input,
+.field select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.submit-button {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  grid-column: 1 / -1;
+  color: var(--error);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.result-page {
+  text-align: center;
+}
+
+.predicted-amount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 16px 0 4px 0;
+}
+
+.predicted-exact {
+  color: var(--text-secondary);
+  margin: 0 0 24px 0;
+}
+
+a {
+  color: var(--accent);
+}
